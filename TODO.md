@@ -1,0 +1,4 @@
+- form request
+- api crud article
+- model view controller
+- api (response as json)
