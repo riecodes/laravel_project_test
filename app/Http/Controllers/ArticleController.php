@@ -12,15 +12,11 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        
-    }
+        // $article variable transfers the data of the Article model and gets all data
+        $articles = Article::all();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
-    {
-        
+        // returning the response as a json file for the $article variable, with an http status 200 that means ok
+        return response()->json($articles, 200);
     }
 
     /**
@@ -28,7 +24,14 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request)
     {
+        // calling StoreArticleRequest to ensure if the data (title and content) is well validated
         $data = $request->validated();
+
+        // Article::create a method to create data as well as uses the $data from the $fillable in Models/Article.php
+        $article = Article::create($data);
+
+        // returns the response as a json file for the $article variable, with an http status 201 that means created
+        return response()->json($article, 201);
     }
 
     /**
@@ -36,22 +39,17 @@ class ArticleController extends Controller
      */
     public function show(string $id)
     {
-        $data = Article::select('id')->where('id', $id)->first();
-        return response()->json($data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        // changed $data to $article for consistency
+        $article = Article::select('id')->where('id', $id)->first();
+        
+                // returns the response as a json file for the $article variable, with an http status 200, updated
+        return response()->json($article, 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateArticleRequest $request, string $id)
     {
         //
     }
