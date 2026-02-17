@@ -2,63 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreArticleRequest;
+use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
+use Illuminate\Http\Response;
+
 
 class ArticleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        // $article variable transfers the data of the Article model and gets all data
+    // GET /api/articles
+    public function index() {
         $articles = Article::all();
+        return response()->json($articles);
+    }
+    // POST /api/articles
+    public function store(StoreArticleRequest $request) {
+        $articles = Article::create($request->validated());
+        return response()->json($articles, 201);
+    }
+    //GET /api/articles/{id}
+    public function show($id) {
+        $article = Article::find($id);
 
-        // returning the response as a json file for the $article variable, with an http status 200 that means ok
-        return response()->json($articles, 200);
+        if (!$article) {
+            return response()->json(['message' => 'Article not found bro'], 404);
+        }
+
+        return response()->json($article);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreArticleRequest $request)
-    {
-        // calling StoreArticleRequest to ensure if the data (title and content) is well validated
-        $data = $request->validated();
+    //
+        public function update(UpdateArticleRequest $request, $id) {
+        $articles = Article::find($id);
 
-        // Article::create a method to create data as well as uses the $data from the $fillable in Models/Article.php
-        $article = Article::create($data);
-
-        // returns the response as a json file for the $article variable, with an http status 201 that means created
-        return response()->json($article, 201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        // changed $data to $article for consistency
-        $article = Article::select('id')->where('id', $id)->first();
+        if (!$articles) {
+            return response()->json(['message' => 'Article not found bro'], 404);
+        }
         
-                // returns the response as a json file for the $article variable, with an http status 200, updated
-        return response()->json($article, 200);
+        $articles->update($request->validated());
+        return response()->json($articles, 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateArticleRequest $request, string $id)
-    {
-        //
-    }
+    public function destroy($id) {
+        $article = Article::find($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        if (!$article) {
+            return response()->json(['message' => 'Article not found bro'], 404);
+        }
+
+        $article->delete();
+        return response()->json(['message' => 'Article deleted successfully bro']);
     }
 }
