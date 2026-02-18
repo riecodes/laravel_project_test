@@ -3675,3 +3675,198 @@ Need help with a specific Postman test? Let me know! 🚀
 
 ---
 
+_**User**_
+
+how git branch 
+
+---
+
+_**Agent (model claude-4.5-sonnet-thinking, mode Agent)**_
+
+<think><details><summary>Thought Process</summary>
+The user is asking about git branch commands. This is a simple question about git usage, not specific to their codebase. I should provide a comprehensive guide on how to use git branch commands.</details></think>
+
+---
+
+Here's a complete guide on Git branch commands:
+
+---
+
+## 📌 **Basic Branch Commands**
+
+### **View Branches**
+
+```bash
+# List all local branches
+git branch
+
+# List all branches (local + remote)
+git branch -a
+
+# List only remote branches
+git branch -r
+
+# Show current branch
+git branch --show-current
+```
+
+**Output example:**
+```
+* main
+  feature/article-api
+  fix/login-bug
+```
+The `*` shows your current branch.
+
+---
+
+### **Create a Branch**
+
+```bash
+# Create new branch (but stay on current branch)
+git branch feature/new-feature
+
+# Create and switch to new branch (recommended)
+git checkout -b feature/new-feature
+
+# Or using newer syntax
+git switch -c feature/new-feature
+```
+
+---
+
+### **Switch Between Branches**
+
+```bash
+# Switch to existing branch
+git checkout main
+git checkout feature/article-api
+
+# Or using newer syntax
+git switch main
+git switch feature/article-api
+```
+
+---
+
+### **Rename a Branch**
+
+```bash
+# Rename current branch
+git branch -m new-name
+
+# Rename a different branch
+git branch -m old-name new-name
+```
+
+---
+
+### **Delete a Branch**
+
+```bash
+# Delete local branch (safe - won't delete if unmerged changes)
+git branch -d feature/old-feature
+
+# Force delete (even with unmerged changes)
+git branch -D feature/old-feature
+
+# Delete remote branch
+git push origin --delete feature/old-feature
+```
+
+---
+
+## 🔄 **Working with Remote Branches**
+
+### **Push Branch to GitHub**
+
+```bash
+# Push new branch to remote (first time)
+git push -u origin feature/new-feature
+
+# Push to remote (after first time)
+git push
+```
+
+### **Pull Remote Branch**
+
+```bash
+# Fetch all remote branches
+git fetch origin
+
+# Create local branch from remote
+git checkout -b feature/remote-branch origin/feature/remote-branch
+
+# Or shorter syntax
+git checkout --track origin/feature/remote-branch
+```
+
+### **Update Branch from Remote**
+
+```bash
+# Pull changes from remote
+git pull origin main
+```
+
+---
+
+## 🎯 **Common Workflows**
+
+### **Workflow 1: Create Feature Branch**
+
+```bash
+# 1. Make sure you're on main
+git checkout main
+
+# 2. Pull latest changes
+git pull origin main
+
+# 3. Create new feature branch
+git checkout -b feature/add-comments
+
+# 4. Work on your code...
+# (make changes, stage, commit)
+
+# 5. Push to remote
+git push -u origin feature/add-comments
+```
+
+### **Workflow 2: Check What Branch You're On**
+
+```bash
+# Quick check
+git branch --show-current
+
+# Or detailed status
+git status
+```
+
+### **Workflow 3: Merge Branch**
+
+```bash
+# 1. Switch to main branch
+git checkout main
+
+# 2. Merge feature branch into main
+git merge feature/article-api
+
+# 3. Push merged changes
+git push origin main
+
+# 4. (Optional) Delete merged branch
+git branch -d feature/article-api
+```
+
+---
+
+## 🌲 **Branch Naming Conventions**
+
+**Good practices:**
+
+```bash
+# Features
+git checkout -b feature/user-authentication
+git checkout -b feature/article-comments
+
+---
+
