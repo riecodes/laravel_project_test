@@ -2998,6 +2998,7 @@ Thumbs.db
 
 # Added by ggshield
 .cache_ggshield
+<<<<<<< Updated upstream
 
 # Added by ggshield
 .cache_ggshield
@@ -3111,6 +3112,11 @@ Thumbs.db
 
 # Added by ggshield
 .cache_ggshield
+
+# Added by ggshield
+.cache_ggshield
+=======
+>>>>>>> Stashed changes
 
 # Added by ggshield
 .cache_ggshield
