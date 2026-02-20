@@ -273,3 +273,4 @@ This project uses Laravel Form Requests for clean, reusable validation:
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+laravel_project_test is a project i made to learn the basic & fundamentals of laravel.
