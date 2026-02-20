@@ -2284,3 +2284,224 @@ So: stashes remain because either you only popped once (or a few times), or a po
 
 ---
 
+_**User**_
+
+teach  how drop and delete current merge changes?
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+<think><details><summary>Thought Process</summary>
+
+The user is asking how to drop/delete current merge changes in Git. This could mean:
+
+1. **Abort an in-progress merge** – You're in the middle of a merge (e.g. after `git merge` hit conflicts). You want to cancel the merge and go back to the state before the merge.
+
+2. **Undo a completed merge** – The merge was already committed. You want to "undo" that merge commit.
+
+3. **Discard local changes** that came from a merge (e.g. conflict resolution) before committing.
+
+I'll cover the main cases: aborting a merge in progress, and reverting a merge that was already committed. I'm in Ask mode so I'll just explain, not run commands.
+</details></think>
+
+---
+
+
+Here’s how to drop or delete “current merge changes” in the usual cases.
+
+---
+
+## 1. Merge in progress (conflicts or not yet committed)
+
+You ran `git merge` and either have conflicts or haven’t committed yet. You want to **cancel the merge** and go back to the state before the merge.
+
+**Command:**
+```powershell
+git merge --abort
+```
+
+- Removes the merge state.
+- Puts you back on your branch as it was before `git merge`.
+- Your working tree is restored to that state (uncommitted merge changes are gone).
+
+Use this when you see “You have unmerged paths” or “All conflicts fixed but you are still merging” and you decide not to finish the merge.
+
+---
+
+## 2. Merge already committed – undo the merge commit
+
+The merge is done and you have a merge commit. You want to **remove that merge** from the current branch.
+
+**Option A: Undo the last commit (if it’s the merge commit)**  
+If the merge is the **most recent** commit on your branch:
+```powershell
+git reset --hard HEAD~1
+```
+- Deletes the merge commit and any changes it introduced.
+- Branch moves back to the commit before the merge.
+- **Warning:** Any uncommitted work is lost. Use only if you’re sure.
+
+**Option B: Revert the merge (safer, keeps history)**  
+Creates a new commit that undoes the merge, without rewriting history:
+```powershell
+git revert -m 1 HEAD
+```
+- `-m 1` means “revert to the first parent” (usually the branch you were on when you merged).
+- Use this on shared branches (e.g. `main`) where you don’t want to change existing commits.
+
+---
+
+## 3. Only discard local changes (no merge abort)
+
+You’re not in a merge; you just want to throw away **uncommitted** changes in the working tree (e.g. after a failed stash pop or manual edits).
+
+**Discard all uncommitted changes:**
+```powershell
+git restore .
+# or
+git checkout -- .
+```
+**Discard changes in one file:**
+```powershell
+git restore path/to/file
+# or
+git checkout -- path/to/file
+```
+**Unstage and discard:**
+```powershell
+git restore --staged .    # unstage all
+git restore .             # discard working tree changes
+```
+
+---
+
+## Quick reference
+
+| Situation | What to run |
+|----------|-------------|
+| Merge in progress, want to cancel | `git merge --abort` |
+| Merge already committed, want to remove last commit | `git reset --hard HEAD~1` |
+| Merge committed, want to undo but keep history | `git revert -m 1 HEAD` |
+| Only uncommitted changes, want to discard | `git restore .` or `git checkout -- .` |
+
+So: **“drop/delete current merge changes”** usually means:
+- **Merge not finished** → `git merge --abort`
+- **Merge finished (one commit)** → `git reset --hard HEAD~1` (or `git revert -m 1 HEAD` if you prefer not to rewrite history).
+
+---
+
+_**User**_
+
+onnly the working tree to discard teach
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+<think><details><summary>Thought Process</summary>
+
+The user is asking to be taught only about discarding the **working tree** – i.e. how to throw away uncommitted changes in their working directory (and possibly the index/staging area). They want a focused explanation on that, not merge abort or revert.
+</details></think>
+
+---
+
+
+Here’s how to **discard only working tree changes** (and optionally staging).
+
+---
+
+## 1. Discard all uncommitted changes (working tree + staging)
+
+**Restore every file to the last commit:**
+```powershell
+git restore .
+```
+or (older Git):
+```powershell
+git checkout -- .
+```
+
+- Unstages everything and reverts every modified file to the state of the last commit.
+- **New (untracked) files are not removed**; only tracked files are reverted.
+
+---
+
+## 2. Discard only working tree (keep staging)
+
+If you’ve already `git add`ed and want to **keep the index** but undo changes in the working copy:
+```powershell
+git restore .
+```
+In older Git, to throw away working copy but keep staging:
+```powershell
+git checkout -- .
+```
+So: “only the working tree” = run `git restore .` (or `git checkout -- .`). Staged changes stay staged until you run `git restore --staged .` (see below).
+
+---
+
+## 3. Unstage first, then discard working tree
+
+**Step 1 – unstage everything:**
+```powershell
+git restore --staged .
+# or: git reset HEAD
+```
+
+**Step 2 – discard working tree:**
+```powershell
+git restore .
+# or: git checkout -- .
+```
+
+Result: nothing staged, and all tracked files match the last commit.
+
+---
+
+## 4. Discard a single file (working tree only)
+
+**One file:**
+```powershell
+git restore path/to/file.php
+# or: git checkout -- path/to/file.php
+```
+
+**Example:**
+```powershell
+git restore app/Http/Controllers/ArticleController.php
+```
+
+Only that file’s working tree is reverted; other files are unchanged.
+
+---
+
+## 5. Remove untracked files (optional)
+
+If you also want to **delete untracked files** so the working tree is completely clean:
+```powershell
+git clean -fd
+```
+- `-f` = force  
+- `-d` = directories too  
+
+**Preview first (dry run):**
+```powershell
+git clean -fdn
+```
+
+---
+
+## Summary (working tree only)
+
+| Goal | Command |
+|------|--------|
+| Discard all working tree (and unstage) | `git restore .` |
+| Discard one file | `git restore path/to/file` |
+| Unstage all, then discard working tree | `git restore --staged .` then `git restore .` |
+| Clean untracked files | `git clean -fd` (use `-n` to preview) |
+
+So to **only discard the working tree**: use `git restore .` (or `git restore <file>` for one file). That does not touch merge state or existing commits.
+
+---
+
