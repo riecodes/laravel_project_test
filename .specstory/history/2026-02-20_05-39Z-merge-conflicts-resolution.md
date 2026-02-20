@@ -786,6 +786,7 @@ how can i stage this md?@.specstory/history/2026-02-20_05-39Z-merge-conflicts-re
 
 ---
 
+<<<<<<< Updated upstream
 _**Agent (model default, mode Agent)**_
 
 <think><details><summary>Thought Process</summary>
@@ -1075,3 +1076,5 @@ Then Git receives the full `stash@{0}` and pops the latest stash. For other indi
 
 ---
 
+=======
+>>>>>>> Stashed changes
