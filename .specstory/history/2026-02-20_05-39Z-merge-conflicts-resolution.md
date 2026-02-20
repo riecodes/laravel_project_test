@@ -218,39 +218,7 @@ Starting with TODO.md.
 
 <details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test\TODO.md</summary>
 
-</details>
-
-</tool-use>
-
----
-
-<think><details><summary>Thought Process</summary>
-
-TODO.md is done. Now mark todo 1 complete and todo 2 in progress, and resolve README.md's four conflicts.
-</details></think>
-
----
-
-
-
-
-
----
-
-<tool-use data-tool-type="task" data-tool-name="todo_write">
-<details><summary>Tool use: **todo_write** • Todo List</summary>
-
-- [x] Resolve merge conflict in TODO.md
-- [-] Resolve 4 merge conflicts in README.md
-
-</details>
-</tool-use>
-
----
-
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test\README.md</summary>
+Status: **loading**
 
 </details>
 
@@ -258,6 +226,7 @@ TODO.md is done. Now mark todo 1 complete and todo 2 in progress, and resolve RE
 
 ---
 
+<<<<<<< Updated upstream
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
 <details><summary>Tool use: **edit_file_v2** • Edit file: c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test\README.md</summary>
@@ -2505,3 +2474,5 @@ So to **only discard the working tree**: use `git restore .` (or `git restore <f
 
 ---
 
+=======
+>>>>>>> Stashed changes
