@@ -22,8 +22,4 @@
 - ⚠️ LoginRequest.php may have syntax error (check validation rules)
 - ⚠️ /api/user route is outside auth:sanctum middleware (move inside if needed)
 
-<<<<<<< Updated upstream
 **Goal Achieved:** No bearer token = no authentication on Article routes!
-=======
-**Goal:** no bearer token = no authenticationwindows
->>>>>>> Stashed changes
