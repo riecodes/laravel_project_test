@@ -40,7 +40,7 @@ class ArticleController extends Controller
         }
         
         $articles->update($request->validated());
-        return response()->json($articles, 201);
+        return response()->json($articles, 200);
     }
     //  
     public function destroy($id) {
@@ -54,13 +54,4 @@ class ArticleController extends Controller
         return response()->json(['message' => 'Article deleted successfully bro']);
     }
 
-    //
-    public function login($id) {
-
-    }
-
-    //
-    public function register(){
-        
-    }
 }

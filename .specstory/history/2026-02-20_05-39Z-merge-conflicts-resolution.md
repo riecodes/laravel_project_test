@@ -1478,7 +1478,618 @@ _**Agent...
 =======
 >>>>>>> Stashed changes
 
-So "Updated upstream" had the Agent content; "Stashed changes" was empty. So we want to KEEP the Agent content and remove the markers. S</details></think>
+So "Updated upstream" had the Agent content; "Stashed changes" was empty. So we want to KEEP the Agent content and remove the markers. So I need to remove the two "<<<<<<< Updated upstream" lines (the duplicate) and the "======= \n>>>>>>> Stashed changes" parts. I already removed the trailing "======= \n>>>>>>> ...". So I still need to remove "<<<<<<< Updated upstream" and "<<<<<<< Updated upstream" at lines 789-790 in the specstory file.
+</details></think>
+
+---
+
+
+Removing the remaining conflict markers from the specstory file.
+
+
+---
+
+The string to replace was not found in the file.
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+So the first replace already removed the "======= \n>>>>>>>" part, and the conflict markers at 789-790 might have a different format. Let me read the file again around line 787.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test\.specstory\history\2026-02-20_05-39Z-merge-conflicts-resolution.md</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "pattern": "&lt;&lt;&lt;&lt;&lt;&lt;&lt;|=======|&gt;&gt;&gt;&gt;&gt;&gt;&gt;",
+  "path": "c:\\Users\\eirmo\\Documents\\important_laptop\\Socia\\laravel\\project_test\\.specstory\\history\\2026-02-20_05-39Z-merge-conflicts-resolution.md",
+  "caseInsensitive": false
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "pattern": "&lt;&lt;&lt;&lt;&lt;&lt;&lt;|=======|&gt;&gt;&gt;&gt;&gt;&gt;&gt;",
+  "path": "c:\\Users\\eirmo\\Documents\\important_laptop\\Socia\\laravel\\project_test\\.specstory\\history\\2026-02-20_05-39Z-merge-conflicts-resolution.md",
+  "outputMode": "content",
+  "totalFiles": 1,
+  "totalMatches": 36,
+  "topFiles": [
+    {
+      "uri": ".specstory\\history\\2026-02-20_05-39Z-merge-conflicts-resolution.md",
+      "matchCount": 36
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+The specstory file no longer has actual conflict markers at 789 - those grep hits are inside the *content* of the file (in agent messages discussing conflicts). So the specstory file is already resolved. Let me double-check for actual conflict markers that are at line start:
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "pattern": "^&lt;&lt;&lt;&lt;&lt;&lt;&lt; |^=======$|^&gt;&gt;&gt;&gt;&gt;&gt;&gt; ",
+  "path": "c:\\Users\\eirmo\\Documents\\important_laptop\\Socia\\laravel\\project_test",
+  "glob": "*.md",
+  "caseInsensitive": false
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "pattern": "^&lt;&lt;&lt;&lt;&lt;&lt;&lt; |^=======$|^&gt;&gt;&gt;&gt;&gt;&gt;&gt; ",
+  "path": "c:\\Users\\eirmo\\Documents\\important_laptop\\Socia\\laravel\\project_test",
+  "outputMode": "content",
+  "totalFiles": 1,
+  "totalMatches": 10,
+  "topFiles": [
+    {
+      "uri": ".\\.specstory\\history\\2026-02-20_05-39Z-merge-conflicts-resolution.md",
+      "matchCount": 10
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "pattern": "^&lt;&lt;&lt;&lt;&lt;&lt;&lt; |^=======$|^&gt;&gt;&gt;&gt;&gt;&gt;&gt; ",
+  "path": "c:\\Users\\eirmo\\Documents\\important_laptop\\Socia\\laravel\\project_test\\.gitignore",
+  "caseInsensitive": false
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "pattern": "^&lt;&lt;&lt;&lt;&lt;&lt;&lt; |^=======$|^&gt;&gt;&gt;&gt;&gt;&gt;&gt; ",
+  "path": "c:\\Users\\eirmo\\Documents\\important_laptop\\Socia\\laravel\\project_test\\.gitignore",
+  "outputMode": "content",
+  "totalFiles": 1,
+  "totalMatches": 3,
+  "topFiles": [
+    {
+      "uri": ".gitignore",
+      "matchCount": 3
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+So the specstory file - those matches at 1382, 1385, etc. might be inside a code block or quoted text (part of the transcript). So the only real conflict left is .gitignore. I need to remove the .gitignore conflict (lines 3082-5445). I'll use PowerShell to do it: read lines 1-3081, skip 3082-5445, then read 5446 to end.
+</details></think>
+
+---
+
+
+Resolving the .gitignore conflict by removing the conflict block with a shell command:
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; $c = Get-Content .gitignore -Raw; $start = $c.IndexOf("`n<<<<<<< Updated upstream"); $end = $c.IndexOf(">>>>>>> Stashed changes`n", $start) + ">>>>>>> Stashed changes`n".Length; if ($start -ge 0 -and $end -gt $start) { $c = $c.Substring(0, $start) + $c.Substring($end); Set-Content .gitignore -Value $c -NoNewline } else { "Pattern not found: start=$start end=$end" }</summary>
+
+```bash
+cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; $c = Get-Content .gitignore -Raw; $start = $c.IndexOf("`n<<<<<<< Updated upstream"); $end = $c.IndexOf(">>>>>>> Stashed changes`n", $start) + ">>>>>>> Stashed changes`n".Length; if ($start -ge 0 -and $end -gt $start) { $c = $c.Substring(0, $start) + $c.Substring($end); Set-Content .gitignore -Value $c -NoNewline } else { "Pattern not found: start=$start end=$end" }
+```
+
+```
+sandbox: warning - direct egress blocking is best-effort on Windows
+Get-ChildItem : An item with the same key has already been added.
+At C:\Users\eirmo\AppData\Local\Temp\ps-script-cb263d0e-cdaa-4649-b0db-51d6d9c838df.ps1:40 char:16
++     $envVars = Get-ChildItem Env: | Sort-Object Name
++                ~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-ChildItem], ArgumentException
+    + FullyQualifiedErrorId : System.ArgumentException,Microsoft.PowerShell.Commands.GetChildItemCommand
+ 
+
+```
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Command ran. Let me verify .gitignore no longer has conflict markers, then add the resolved files and commit the merge.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "pattern": "^&lt;&lt;&lt;&lt;&lt;&lt;&lt; |^=======$|^&gt;&gt;&gt;&gt;&gt;&gt;&gt; ",
+  "path": "c:\\Users\\eirmo\\Documents\\important_laptop\\Socia\\laravel\\project_test\\.gitignore",
+  "caseInsensitive": false
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "pattern": "^&lt;&lt;&lt;&lt;&lt;&lt;&lt; |^=======$|^&gt;&gt;&gt;&gt;&gt;&gt;&gt; ",
+  "path": "c:\\Users\\eirmo\\Documents\\important_laptop\\Socia\\laravel\\project_test\\.gitignore",
+  "outputMode": "content",
+  "totalFiles": 0,
+  "totalMatches": 0,
+  "topFiles": []
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+.gitignore is resolved. Now add all three files, commit the merge, then:
+1. Fetch latest from origin (optional)
+2. Create branch feature/login-register - but "feature" branch exists so we need to delete it first to create feature/login-register
+3. Push to feature/login-register
+4. Delete feature branch
+5. List branches
+
+Actually re-reading the user request: "push to feature/login-register" - they might want to push the current branch to a branch named feature/login-register. So either: rename current branch to feature/login-register, or create feature/login-register from current and push. And "delete feature branch" - delete the branch named "feature". "list" - list branches at the end.
+
+So: 1) git add the 3 files, 2) git commit (to complete merge), 3) git branch -m feature/login-register OR git checkout -b feature/login-register (but we're on docs/readme-todo). So maybe: create feature/login-register from current (docs/readme-todo), push it, then delete feature. Or: merge main into current, then push current to feature/login-register. User said "merge and get latest changes" - so merge main into current branch first. Let me: add, commit merge, then fetch origin main, merge origin/main into current, then create feature/login-register from current (or switch to it), push feature/login-register, delete local feature branch, list.
+</details></think>
+
+---
+
+
+Staging resolved files and completing the merge.
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git add .gitignore TODO.md ".specstory/history/2026-02-20_05-39Z-merge-conflicts-resolution.md"; git status</summary>
+
+```bash
+cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git add .gitignore TODO.md ".specstory/history/2026-02-20_05-39Z-merge-conflicts-resolution.md"; git status
+```
+
+```
+On branch docs/readme-todo
+Your branch is up to date with 'origin/docs/readme-todo'.
+
+Changes to be committed:
+  (use "git restore --staged &lt;file&gt;..." to unstage)
+	modified:   .gitignore
+	modified:   .specstory/history/2026-02-20_05-39Z-merge-conflicts-resolution.md
+	modified:   TODO.md
+
+sandbox: warning - direct egress blocking is best-effort on Windows
+warning: in the working copy of '.gitignore', CRLF will be replaced by LF the next time Git touches it
+Get-ChildItem : An item with the same key has already been added.
+At C:\Users\eirmo\AppData\Local\Temp\ps-script-8e5d8783-3605-4965-adb1-45e87435e8a8.ps1:40 char:16
++     $envVars = Get-ChildItem Env: | Sort-Object Name
++                ~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-ChildItem], ArgumentException
+    + FullyQualifiedErrorId : System.ArgumentException,Microsoft.PowerShell.Commands.GetChildItemCommand
+ 
+
+```
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+We're no longer in "Unmerged paths" - the add marked the conflicts as resolved. But we're not in a merge anymore - we're just with "Changes to be committed". So this might have been from a stash pop that left conflicts, and we resolved them. So we need to commit these changes (not a merge commit, just a regular commit). Then create feature/login-register. To create feature/login-register we need to delete feature first (since feature exists). Then checkout -b feature/login-register, push -u origin feature/login-register, delete feature branch, list.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git commit --trailer "Co-authored-by: Cursor <cursoragent@cursor.com>" -m "Resolve merge conflicts in .gitignore, TODO.md, specstory history"</summary>
+
+```bash
+cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git commit --trailer "Co-authored-by: Cursor <cursoragent@cursor.com>" -m "Resolve merge conflicts in .gitignore, TODO.md, specstory history"
+```
+
+```
+[docs/readme-todo 3106d49] Resolve merge conflicts in .gitignore, TODO.md, specstory history
+ 3 files changed, 407 insertions(+), 2339 deletions(-)
+sandbox: warning - direct egress blocking is best-effort on Windows
+Get-ChildItem : An item with the same key has already been added.
+At C:\Users\eirmo\AppData\Local\Temp\ps-script-52cd2c79-1d56-40cc-b087-67c1158dc19b.ps1:40 char:16
++     $envVars = Get-ChildItem Env: | Sort-Object Name
++                ~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-ChildItem], ArgumentException
+    + FullyQualifiedErrorId : System.ArgumentException,Microsoft.PowerShell.Commands.GetChildItemCommand
+ 
+
+```
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Good. Now: get latest (fetch + merge main into current?), push to feature/login-register, delete feature, list. To push to feature/login-register we need to either rename current branch to feature/login-register or create that branch. User said "push to feature/login-register" - I'll create branch feature/login-register from current (we need to delete "feature" first so that ref doesn't block), then push it, then delete local "feature".
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="task" data-tool-name="todo_write">
+<details><summary>Tool use: **todo_write** • Todo List</summary>
+
+- [x] Resolve merge conflicts in .gitignore, TODO.md, specstory
+- [-] Complete merge, push to feature/login-register, delete feature
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git fetch origin; git merge origin/main -m "Merge origin/main to get latest changes"</summary>
+
+```bash
+cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git fetch origin; git merge origin/main -m "Merge origin/main to get latest changes"
+```
+
+```
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+Automatic merge failed; fix conflicts and then commit the result.
+fatal: unable to access 'https://github.com/riecodes/project_test.git/': schannel: AcquireCredentialsHandle failed: SEC_E_NO_CREDENTIALS (0x8009030E) - No credentials are available in the security package
+
+```
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Fetch failed (credentials) but merge ran with what we had - and there's a conflict in README.md. Let me abort the merge so we're back to a clean state, then proceed without merging main (user can merge later when they have network). Or resolve the README conflict. Let me check - the user said "merge and get latest changes". The fetch failed so we don't have latest. Let me abort the merge and then: create feature/login-register (delete feature first), push (might fail due to credentials), delete feature, list.
+</details></think>
+
+---
+
+
+Aborting the merge due to README conflict and fetch credentials failure. Creating `feature/login-register`, then deleting `feature`.
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git merge --abort</summary>
+
+```bash
+cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git merge --abort
+```
+
+```
+sandbox: warning - direct egress blocking is best-effort on Windows
+Get-ChildItem : An item with the same key has already been added.
+At C:\Users\eirmo\AppData\Local\Temp\ps-script-f538e752-45fc-4e16-961d-2081260e1e20.ps1:138 char:16
++     $envVars = Get-ChildItem Env: | Sort-Object Name
++                ~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-ChildItem], ArgumentException
+    + FullyQualifiedErrorId : System.ArgumentException,Microsoft.PowerShell.Commands.GetChildItemCommand
+ 
+
+```
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Good. Now delete feature branch so we can create feature/login-register, then create feature/login-register from current branch, push, list.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git branch -D feature; git checkout -b feature/login-register</summary>
+
+```bash
+cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git branch -D feature; git checkout -b feature/login-register
+```
+
+```
+Deleted branch feature (was c6ba3c7).
+sandbox: warning - direct egress blocking is best-effort on Windows
+Switched to a new branch 'feature/login-register'
+Get-ChildItem : An item with the same key has already been added.
+At C:\Users\eirmo\AppData\Local\Temp\ps-script-627b8d13-7541-40e8-9dbb-fb66c71dfe90.ps1:40 char:16
++     $envVars = Get-ChildItem Env: | Sort-Object Name
++                ~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-ChildItem], ArgumentException
+    + FullyQualifiedErrorId : System.ArgumentException,Microsoft.PowerShell.Commands.GetChildItemCommand
+ 
+
+```
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Good. Now push to origin feature/login-register. This may fail due to credentials - I'll try with network.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git push -u origin feature/login-register</summary>
+
+```bash
+cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git push -u origin feature/login-register
+```
+
+```
+fatal: unable to access 'https://github.com/riecodes/project_test.git/': schannel: AcquireCredentialsHandle failed: SEC_E_NO_CREDENTIALS (0x8009030E) - No credentials are available in the security package
+
+```
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Push failed - no credentials (GitHub auth). I'll list branches and summarize for the user. They'll need to push manually after logging in.
+</details></think>
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git branch -a</summary>
+
+```bash
+cd "c:\Users\eirmo\Documents\important_laptop\Socia\laravel\project_test"; git branch -a
+```
+
+```
+  docs/readme-todo
+* feature/login-register
+  list
+  main
+  remotes/origin/HEAD -&gt; origin/main
+  remotes/origin/docs/readme-todo
+  remotes/origin/main
+  remotes/origin/revise/README
+sandbox: warning - direct egress blocking is best-effort on Windows
+Get-ChildItem : An item with the same key has already been added.
+At C:\Users\eirmo\AppData\Local\Temp\ps-script-d715041f-997e-43c5-a40c-31558de2b263.ps1:138 char:16
++     $envVars = Get-ChildItem Env: | Sort-Object Name
++                ~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-ChildItem], ArgumentException
+    + FullyQualifiedErrorId : System.ArgumentException,Microsoft.PowerShell.Commands.GetChildItemCommand
+ 
+
+```
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="task" data-tool-name="todo_write">
+<details><summary>Tool use: **todo_write** • Todo List</summary>
+
+- [x] Resolve merge conflicts in .gitignore, TODO.md, specstory
+- [x] Complete merge, push to feature/login-register, delete feature
+
+</details>
+</tool-use>
+
+---
+
+<think><details><summary>Thought Process</summary>
+
+Done. Summarize for user. Note: merge from main was aborted due to README conflict; push failed due to GitHub credentials - user needs to push manually and merge main when they have credentials.
+</details></think>
+
+---
+
+
+Summary of what was done:
+
+**1. Stashes (current list)**  
+- `stash@{0}`: WIP on docs/readme-todo (Update README and TODO…)  
+- `stash@{1}`: WIP on main (Refactor ArticleController, Sanctum…)  
+- `stash@{2}`: WIP on main (same)  
+- `stash@{3}`: WIP on feature (Update README and TODO…)  
+- `stash@{4}`: On main: stash  
+
+**2. Merge conflicts resolved**  
+- **.gitignore** – Removed the conflict block (duplicate `.cache_ggshield` / “Updated upstream” vs “Stashed changes”).  
+- **TODO.md** – Kept: `**Goal Achieved:** No bearer token = no authentication on Article routes!`  
+- **.specstory/history/2026-02-20_05-39Z-merge-conflicts-resolution.md** – Removed the conflict markers at the end.  
+
+**3. Commit**  
+- All three files were staged and committed on `docs/readme-todo` with:  
+  `Resolve merge conflicts in .gitignore, TODO.md, specstory history`.
+
+**4. Merge with latest**  
+- `git fetch origin` failed with **SEC_E_NO_CREDENTIALS** (no GitHub login in this environment).  
+- `git merge origin/main` was run; it hit a **conflict in README.md**, so the merge was **aborted** to leave the repo clean. You can merge `main` again later and fix the README conflict when you have credentials.
+
+**5. Branch `feature/login-register`**  
+- Branch **feature** was deleted (it was at `c6ba3c7`).  
+- New branch **feature/login-register** was created from the current commit and checked out.  
+- **Push to origin failed** (same credentials error). Push from your machine when logged in:
+
+```powershell
+git push -u origin feature/login-register
+```
+
+**6. Branch list**
+
+| Branch                    | Notes                          |
+|---------------------------|--------------------------------|
+| **feature/login-register** | Current branch (local only)    |
+| docs/readme-todo          | Local                          |
+| list                      | Local                          |
+| main                      | Local                          |
+| remotes/origin/main       | Remote                         |
+| remotes/origin/docs/readme-todo | Remote                   |
+| remotes/origin/revise/README | Remote                     |
+
+**What you should do locally**  
+1. Push the new branch (after logging into GitHub):  
+   `git push -u origin feature/login-register`  
+2. When you want latest from main:  
+   `git fetch origin` then `git merge origin/main` and resolve the README.md conflict if it appears again.
+
+---
+
+_**User**_
+
+Verify this issue exists and fix it:
+
+The `update()` method returns HTTP status code `201 Created` instead of `200 OK` or `204 No Content`. The `201` status code should only be used when a new resource is created (used correctly in `store()` at line 21), not when updating an existing resource. The update endpoint should return `200` with the updated resource or `204` with no content. @app/Http/Controllers/ArticleController.php:42-43 
 
 ---
 
