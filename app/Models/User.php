@@ -46,4 +46,7 @@ use HasFactory, Notifiable, HasApiTokens;
             'password' => 'hashed',
         ];
     }
+    public function articles() {
+        return $this->hasMany(Article::class);
+    }
 }

@@ -8,6 +8,8 @@ use App\Models\Article;
 use Illuminate\Http\Response;
 use App\Support\ApiResponse;
 use App\Http\Resources\ArticleResource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class ArticleController extends Controller
@@ -16,7 +18,12 @@ class ArticleController extends Controller
 
     // GET /api/articles
     public function index() {
-        $articles = Article::paginate(10);
+        // Only get articles belonging to the authenticated user
+
+        $user = Auth::user();
+
+        $articles = $user->articles()->paginate(10);
+
         return $this->success(
             ArticleResource::collection($articles),
             'Articles list'
@@ -24,7 +31,10 @@ class ArticleController extends Controller
     }
     // POST /api/articles
     public function store(StoreArticleRequest $request) {
-        $article = Article::create($request->validated());
+        
+        $user = Auth::user();
+
+        $article = $user->articles()->create($request->validated());
 
         return $this->created(
             new ArticleResource($article),
@@ -32,15 +42,30 @@ class ArticleController extends Controller
         );
     }
     // GET /api/articles/{id}
-    public function show(Article $article) {
+    public function show(Request $request, Article $article) {
+        
+        $user = Auth::user();
+
+        if ($article->user_id !== $user->id) {
+            return $this->error('Unauthorized to view this article', 403);
+        }
+
         return $this->success(
-            ArticleResource::collection($article),
+            new ArticleResource($article),
             'Article detail'
         );
     }
 
     // PUT /api/articles/{id}
     public function update(UpdateArticleRequest $request, Article $article) {
+        
+        $user = Auth::user();
+
+        // Check if the article belongs to the user
+        if ($article->user_id !== $user->id) {
+            return $this->error('Unauthorized to update this article', 403);
+        }
+
         $article->update($request->validated());
 
         return $this->updated(
@@ -48,12 +73,12 @@ class ArticleController extends Controller
             'Article updated'
         );
     }
-    //  
-    public function destroy($id) {
-        $article = Article::find($id);
+    // DELETE /api/articles/{id}
+    public function destroy(Request $request, $id) {
+        $article = $request->user()->articles()->find($id);
 
         if (!$article) {
-            return $this->error( 'Article not found bro', 404);
+            return $this->error('Article not found or unauthorized', 404);
         }
 
         $article->delete();

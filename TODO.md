@@ -22,13 +22,14 @@
 - ⚠️ LoginRequest.php may have syntax error (check validation rules)
 - ⚠️ /api/user route is outside auth:sanctum middleware (move inside if needed)
 
-<<<<<<< Updated upstream
 **Goal Achieved:** No bearer token = no authentication on Article routes!
-=======
-**Goal:** no bearer token = no authenticationwindows
->>>>>>> Stashed changes
 
 
 Relation: user to user
 - if a user creates an article, they should be able to access all the articles that they created
 - only use laravel eloquent (do not use select), use belongs to syntax etc.
+- relation is used so that its controlled on what data to pass on, not just the whole thing 
+
+- use Auth on every funtion that needs authentication. ex, in index(). it needs to verify first if the user is authenticated before showing it.
+
+- also make validation for all the requests like api/login, api/register /api/articles

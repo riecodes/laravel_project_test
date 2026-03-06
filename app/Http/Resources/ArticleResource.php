@@ -18,6 +18,7 @@ class ArticleResource extends JsonResource
             'id'            =>$this->id,
             'title'         =>$this->title,
             'content'       =>$this->content,
+            'author'        =>$this->user->name, // Accessing the relationship
             'created_at'    =>$this->created_at->toIso8601String(),
         ];
     }
