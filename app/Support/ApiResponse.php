@@ -6,11 +6,23 @@ use Illuminate\Http\JsonResponse;
 
 trait ApiResponse {
     protected function success($data = null, string $message = "OK", int $status = 200): JsonResponse {
-        return response()->json([
+        $response = [
             'status' => 'success',
             'message' => $message,
             'data' => $data,
-        ], $status);
+        ];
+
+        if ($data instanceof \Illuminate\Http\Resources\Json\AnonymousResourceCollection 
+        &&  $data->resource instanceof \Illuminate\Pagination\AbstractPaginator) {
+            
+            $response = array_merge($response, $data->response()->getData(true));
+            // Ensure status and message are preserved and merged
+            $response['status']= 'success';
+            $response['message']='$message';
+        }
+
+        return response()->json($response, $status);
+        
     }
 
     protected function created($data = null, string $message = "Created"): JsonResponse {

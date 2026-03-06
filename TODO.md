@@ -27,3 +27,8 @@
 =======
 **Goal:** no bearer token = no authenticationwindows
 >>>>>>> Stashed changes
+
+
+Relation: user to user
+- if a user creates an article, they should be able to access all the articles that they created
+- only use laravel eloquent (do not use select), use belongs to syntax etc.
